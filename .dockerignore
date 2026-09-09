@@ -1,0 +1,8 @@
+**/node_modules
+**/data
+**/.env
+.git
+desktop/node_modules
+voice-assistant/__pycache__
+voice-assistant/.venv
+tests/node_modules

@@ -1,0 +1,26 @@
+{
+  "name": "axia-backend",
+  "version": "1.0.0",
+  "description": "AXIA - assistente pessoal por voz/texto. Backend Node/Express.",
+  "type": "commonjs",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "googleapis": "^144.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "qrcode": "^1.5.4",
+    "stripe": "^17.3.1",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}

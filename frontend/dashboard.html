@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AXIA — Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">AX<span>IA</span></div>
+
+      <div class="widget" id="widget-tasks">
+        <h3>Tarefas pendentes</h3>
+        <ul><li>Carregando…</li></ul>
+      </div>
+
+      <div class="widget" id="widget-reminders">
+        <h3>Lembretes</h3>
+        <ul><li>Carregando…</li></ul>
+      </div>
+
+      <div class="widget" id="widget-events">
+        <h3>Agenda</h3>
+        <ul><li>Carregando…</li></ul>
+      </div>
+
+      <div class="widget" id="widget-balance">
+        <h3>Saldo</h3>
+        <div class="balance">—</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-secondary" id="btn-billing">💳 Assinar plano (billing)</button>
+        <button class="btn-secondary" id="btn-calendar">📅 Conectar Google Calendar</button>
+        <button class="logout-btn" id="btn-logout">Sair</button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <div class="topbar">
+        <h2 id="greeting">Olá!</h2>
+        <span class="mode-badge" id="mode-badge">verificando…</span>
+      </div>
+
+      <div class="chat-window" id="chat-window"></div>
+
+      <form class="chat-form" id="chat-form">
+        <input id="chat-input" type="text" placeholder="Pergunte sobre suas tarefas, lembretes, eventos ou transações…" autocomplete="off" />
+        <button type="submit" id="chat-send">Enviar</button>
+      </form>
+      <p class="small-note" id="chat-note"></p>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    (async function init() {
+      if (!AxiaAPI.getToken()) {
+        window.location.href = '/index.html';
+        return;
+      }
+
+      const user = AxiaAPI.getUser();
+      document.getElementById('greeting').textContent = `Olá, ${user?.name || ''} 👋`;
+
+      document.getElementById('btn-logout').addEventListener('click', () => {
+        AxiaAPI.clearSession();
+        window.location.href = '/index.html';
+      });
+
+      // Badge de modo (real vs demo), baseado em /api/status (não autenticado)
+      try {
+        const status = await AxiaAPI.status();
+        const badge = document.getElementById('mode-badge');
+        if (status.integrations.anthropic.configured) {
+          badge.textContent = 'IA real (Claude) conectada';
+          badge.classList.add('real');
+        } else {
+          badge.textContent = 'Chat em modo DEMO (sem ANTHROPIC_API_KEY)';
+          badge.classList.add('demo');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      await loadWidgets();
+      await loadHistory();
+
+      document.getElementById('chat-form').addEventListener('submit', onSendMessage);
+      document.getElementById('btn-billing').addEventListener('click', onBilling);
+      document.getElementById('btn-calendar').addEventListener('click', onCalendar);
+    })();
+
+    async function loadWidgets() {
+      try {
+        const { tasks } = await AxiaAPI.tasks();
+        const open = tasks.filter((t) => !t.done);
+        renderList('widget-tasks', open.slice(0, 5).map((t) => t.title), 'Nenhuma tarefa pendente');
+      } catch (err) { console.error(err); }
+
+      try {
+        const { reminders } = await AxiaAPI.reminders();
+        renderList('widget-reminders', reminders.slice(0, 5).map((r) => r.text), 'Nenhum lembrete');
+      } catch (err) { console.error(err); }
+
+      try {
+        const { events } = await AxiaAPI.events();
+        renderList('widget-events', events.slice(0, 5).map((e) => e.title), 'Nenhum evento');
+      } catch (err) { console.error(err); }
+
+      try {
+        const { balance } = await AxiaAPI.transactions();
+        const el = document.querySelector('#widget-balance .balance');
+        el.textContent = `R$ ${balance.toFixed(2)}`;
+        el.classList.add(balance >= 0 ? 'positive' : 'negative');
+      } catch (err) { console.error(err); }
+    }
+
+    function renderList(widgetId, items, emptyText) {
+      const ul = document.querySelector(`#${widgetId} ul`);
+      ul.innerHTML = '';
+      if (items.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = emptyText;
+        ul.appendChild(li);
+        return;
+      }
+      for (const text of items) {
+        const li = document.createElement('li');
+        li.textContent = text;
+        ul.appendChild(li);
+      }
+    }
+
+    async function loadHistory() {
+      try {
+        const { messages } = await AxiaAPI.chatHistory();
+        const chatWindow = document.getElementById('chat-window');
+        if (messages.length === 0) {
+          appendMessage('assistant', 'Olá! Sou o AXIA. Pergunte sobre suas tarefas, lembretes, eventos ou transações.');
+          return;
+        }
+        for (const m of messages) appendMessage(m.role, m.content);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function appendMessage(role, text) {
+      const chatWindow = document.getElementById('chat-window');
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      div.textContent = text;
+      chatWindow.appendChild(div);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    async function onSendMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const sendBtn = document.getElementById('chat-send');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      input.value = '';
+      sendBtn.disabled = true;
+
+      try {
+        const { reply, demoMode } = await AxiaAPI.chat(text);
+        appendMessage('assistant', reply);
+        document.getElementById('chat-note').textContent = demoMode
+          ? 'Resposta gerada em modo demo (sem IA real).'
+          : 'Resposta gerada pelo Claude (Anthropic).';
+      } catch (err) {
+        appendMessage('assistant', `Erro: ${err.message}`);
+      } finally {
+        sendBtn.disabled = false;
+        input.focus();
+      }
+    }
+
+    async function onBilling() {
+      try {
+        const { url, demoMode, message } = await AxiaAPI.createCheckoutSession();
+        alert((demoMode ? '[DEMO] ' : '') + (message || 'Sessão de checkout criada.') + `\nURL: ${url}`);
+      } catch (err) {
+        alert(`Erro ao criar sessão de billing: ${err.message}`);
+      }
+    }
+
+    async function onCalendar() {
+      try {
+        const auth = await AxiaAPI.googleAuth();
+        if (auth.demoMode) {
+          await AxiaAPI.googleConnectDemo();
+          alert('Google Calendar conectado em modo demo (sem OAuth real, eventos mockados).');
+        } else {
+          window.location.href = auth.url;
+        }
+      } catch (err) {
+        alert(`Erro ao conectar Google Calendar: ${err.message}`);
+      }
+    }
+  </script>
+</body>
+</html>

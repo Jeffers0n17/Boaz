@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AXIA — Assistente Pessoal</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h1>AXIA</h1>
+      <p class="subtitle">Seu assistente pessoal por voz/texto.</p>
+
+      <div class="tabs">
+        <button id="tab-login" class="active" type="button">Entrar</button>
+        <button id="tab-signup" type="button">Criar conta</button>
+      </div>
+
+      <div id="error" class="error-msg"></div>
+
+      <form id="login-form">
+        <div>
+          <label for="login-email">E-mail</label>
+          <input id="login-email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div>
+          <label for="login-password">Senha</label>
+          <input id="login-password" name="password" type="password" required autocomplete="current-password" />
+        </div>
+        <button class="primary" type="submit">Entrar</button>
+      </form>
+
+      <form id="signup-form" style="display:none">
+        <div>
+          <label for="signup-name">Nome</label>
+          <input id="signup-name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div>
+          <label for="signup-email">E-mail</label>
+          <input id="signup-email" name="email" type="email" required autocomplete="email" />
+        </div>
+        <div>
+          <label for="signup-password">Senha (mín. 6 caracteres)</label>
+          <input id="signup-password" name="password" type="password" required minlength="6" autocomplete="new-password" />
+        </div>
+        <button class="primary" type="submit">Criar conta</button>
+      </form>
+
+      <p class="hint">Ao criar uma conta, dados mockados (tarefas, lembretes, eventos e transações) são gerados automaticamente para você explorar o assistente.</p>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    const tabLogin = document.getElementById('tab-login');
+    const tabSignup = document.getElementById('tab-signup');
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const errorBox = document.getElementById('error');
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.classList.add('show');
+    }
+    function clearError() {
+      errorBox.classList.remove('show');
+    }
+
+    tabLogin.addEventListener('click', () => {
+      tabLogin.classList.add('active');
+      tabSignup.classList.remove('active');
+      loginForm.style.display = 'flex';
+      signupForm.style.display = 'none';
+      clearError();
+    });
+    tabSignup.addEventListener('click', () => {
+      tabSignup.classList.add('active');
+      tabLogin.classList.remove('active');
+      signupForm.style.display = 'flex';
+      loginForm.style.display = 'none';
+      clearError();
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      try {
+        const data = await AxiaAPI.login(email, password);
+        AxiaAPI.saveSession(data);
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        showError(err.message);
+      }
+    });
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      try {
+        const data = await AxiaAPI.signup(name, email, password);
+        AxiaAPI.saveSession(data);
+        window.location.href = '/dashboard.html';
+      } catch (err) {
+        showError(err.message);
+      }
+    });
+
+    // Se já tem sessão salva, vai direto pro dashboard
+    if (AxiaAPI.getToken()) {
+      window.location.href = '/dashboard.html';
+    }
+  </script>
+</body>
+</html>

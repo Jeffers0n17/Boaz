@@ -1,0 +1,10 @@
+requests>=2.31.0
+python-dotenv>=1.0.1
+
+# Pipeline de voz real (reconhecimento de fala + texto-para-voz offline).
+# Precisam de bibliotecas nativas de áudio no sistema (microfone/alto-falante),
+# que não existem em containers/CI headless. O assistente detecta a ausência
+# delas e cai automaticamente para o modo --text (sem áudio).
+SpeechRecognition>=3.10.4
+pyttsx3>=2.90
+PyAudio>=0.2.14

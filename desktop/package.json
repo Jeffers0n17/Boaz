@@ -1,0 +1,12 @@
+{
+  "name": "axia-desktop",
+  "version": "1.0.0",
+  "description": "AXIA - app desktop (Electron) que embrulha o dashboard web.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^33.2.0"
+  }
+}

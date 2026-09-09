@@ -1,0 +1,12 @@
+node_modules/
+backend/data/
+backend/.env
+desktop/node_modules/
+tests/node_modules/
+voice-assistant/__pycache__/
+voice-assistant/.venv/
+voice-assistant/venv/
+*.log
+.DS_Store
+playwright-report/
+test-results/
