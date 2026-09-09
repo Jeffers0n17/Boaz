@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boaz — Marcenaria &amp; Tapeçaria</title>
+<meta name="description" content="Boaz: ateliê onde a madeira encontra o tear. Marcenaria artesanal e tapeçaria autoral em uma experiência 3D.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23241812'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%23d9a441' font-family='Georgia,serif'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-mark">B</div>
+  <div class="loader-bar"><span></span></div>
+  <p>preparando o ateliê…</p>
+</div>
+
+<canvas id="bg-canvas"></canvas>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="#hero" class="brand">
+      <span class="brand-mark">B</span>
+      <span class="brand-text">Boaz<em>Madeira &amp; Fio</em></span>
+    </a>
+    <nav class="main-nav" id="main-nav">
+      <a href="#sobre">Sobre</a>
+      <a href="#marcenaria">Marcenaria</a>
+      <a href="#tapecaria">Tapeçaria</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#processo">Processo</a>
+      <a href="#contato" class="nav-cta">Contato</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <p class="eyebrow reveal">Marcenaria autoral · Tapeçaria manual</p>
+      <h1 class="reveal">Onde a madeira<br>encontra o <span>tear</span></h1>
+      <p class="hero-sub reveal">Um ateliê que une o cheiro de serragem à textura do fio.
+        Peças únicas, entalhadas e tecidas à mão, feitas para durar gerações.</p>
+      <div class="hero-actions reveal">
+        <a href="#galeria" class="btn btn-primary">Explorar o ateliê</a>
+        <a href="#sobre" class="btn btn-ghost">Conhecer a história</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">
+      <span></span>
+      <small>role para descobrir</small>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="section sobre">
+    <div class="container split">
+      <div class="split-text reveal">
+        <p class="eyebrow">O ofício</p>
+        <h2>Duas técnicas, um só gesto: fazer com as mãos</h2>
+        <p>Na Boaz, marcenaria e tapeçaria nascem do mesmo impulso — transformar
+          matéria bruta em algo que se toca, se usa e se guarda. De um lado, a madeira
+          maciça, respeitada em seu veio e em seu tempo de cura. Do outro, o fio,
+          entrelaçado em teares manuais até virar textura, cor e história.</p>
+        <p>Cada peça carrega a marca do processo: encaixes sem pregos aparentes,
+          tramas urdidas fio a fio, acabamentos naturais que envelhecem com dignidade.</p>
+        <div class="stat-row">
+          <div><strong>18</strong><span>anos de ofício</span></div>
+          <div><strong>620+</strong><span>peças entregues</span></div>
+          <div><strong>100%</strong><span>feito à mão</span></div>
+        </div>
+      </div>
+      <div class="split-visual reveal">
+        <div class="grain-frame"><div id="wood-swatch" class="swatch"></div></div>
+        <div class="weave-frame"><div id="weave-swatch" class="swatch"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCENARIA -->
+  <section id="marcenaria" class="section craft craft-wood">
+    <div class="container split reverse">
+      <div class="craft-stage reveal">
+        <canvas id="wood-canvas" class="craft-canvas"></canvas>
+        <span class="craft-tag">girar para ver</span>
+      </div>
+      <div class="split-text reveal">
+        <p class="eyebrow">Marcenaria</p>
+        <h2>Madeira maciça, encaixes de precisão</h2>
+        <p>Selecionamos madeiras de reflorestamento certificado — freijó, cumaru,
+          imbuia — e trabalhamos cada peça no ritmo da serra, da plaina e do formão.
+          Sem pressa, sem atalho.</p>
+        <ul class="feature-list">
+          <li><span class="ico">🪵</span><div><strong>Madeira selecionada</strong><p>Veios escolhidos um a um, secagem natural controlada.</p></div></li>
+          <li><span class="ico">🪚</span><div><strong>Encaixes tradicionais</strong><p>Rabo-de-andorinha e espiga, praticamente sem metal.</p></div></li>
+          <li><span class="ico">🖐️</span><div><strong>Acabamento à mão</strong><p>Óleos e ceras naturais que realçam o veio.</p></div></li>
+          <li><span class="ico">📐</span><div><strong>Projetos sob medida</strong><p>Do esboço ao ambiente, cada móvel é único.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAPEÇARIA -->
+  <section id="tapecaria" class="section craft craft-fiber">
+    <div class="container split">
+      <div class="split-text reveal">
+        <p class="eyebrow">Tapeçaria</p>
+        <h2>Fio a fio, no tempo do tear</h2>
+        <p>Lã, linho e algodão cru ganham forma em teares manuais, com tinturas
+          naturais e composições que dialogam com a paleta da madeira. Cada tapeçaria
+          é desenhada como uma paisagem têxtil.</p>
+        <ul class="feature-list">
+          <li><span class="ico">🧶</span><div><strong>Fibras naturais</strong><p>Lã, linho e algodão de origem rastreável.</p></div></li>
+          <li><span class="ico">🎨</span><div><strong>Tinturas naturais</strong><p>Pigmentos vegetais e minerais, cor viva e estável.</p></div></li>
+          <li><span class="ico">🧵</span><div><strong>Tear manual</strong><p>Trama urdida sem máquinas, ritmo próprio.</p></div></li>
+          <li><span class="ico">🖼️</span><div><strong>Peças autorais</strong><p>Composições exclusivas, numeradas e assinadas.</p></div></li>
+        </ul>
+      </div>
+      <div class="craft-stage reveal">
+        <canvas id="fiber-canvas" class="craft-canvas"></canvas>
+        <span class="craft-tag">arraste para ver</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" class="section galeria">
+    <div class="container">
+      <p class="eyebrow center reveal">Galeria</p>
+      <h2 class="center reveal">Peças do ateliê</h2>
+      <p class="section-sub center reveal">Uma seleção de trabalhos recentes — cada peça é única e não se repete.</p>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section id="processo" class="section processo">
+    <div class="container">
+      <p class="eyebrow center reveal">Processo</p>
+      <h2 class="center reveal">Do esboço à entrega</h2>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-num">01</div>
+          <h3>Esboço &amp; escuta</h3>
+          <p>Conversamos sobre espaço, uso e sensação desejada. Desenhamos à mão.</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">02</div>
+          <h3>Matéria-prima</h3>
+          <p>Escolha de madeira e fibras, sempre com origem verificada.</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">03</div>
+          <h3>Execução manual</h3>
+          <p>Bancada e tear trabalham em paralelo, semanas de dedicação.</p>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-num">04</div>
+          <h3>Acabamento &amp; entrega</h3>
+          <p>Últimos retoques, fotos do processo e entrega cuidada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="section contato">
+    <div class="container split">
+      <div class="split-text reveal">
+        <p class="eyebrow">Contato</p>
+        <h2>Vamos criar sua próxima peça</h2>
+        <p>Conte um pouco do que imagina — um móvel, uma tapeçaria, ou os dois
+          conversando no mesmo ambiente. Respondemos em até 2 dias úteis.</p>
+        <ul class="contact-info">
+          <li>📍 Ateliê Boaz — Rua das Oficinas, 142</li>
+          <li>✉️ contato@boazatelie.com.br</li>
+          <li>📞 +55 (11) 4002-8922</li>
+        </ul>
+        <div class="social-row">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="Pinterest">PT</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+      <form class="contact-form reveal" id="contact-form">
+        <label>Nome
+          <input type="text" name="nome" placeholder="Seu nome" required>
+        </label>
+        <label>E-mail
+          <input type="email" name="email" placeholder="voce@email.com" required>
+        </label>
+        <label>Mensagem
+          <textarea name="mensagem" rows="4" placeholder="Descreva a peça que imagina…" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+        <p class="form-note" id="form-note"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span>© <span id="year"></span> Boaz Ateliê — Madeira &amp; Fio</span>
+    <span class="footer-made">feito à mão, fio a fio, corte a corte</span>
+  </div>
+</footer>
+
+<script src="js/vendor/three.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

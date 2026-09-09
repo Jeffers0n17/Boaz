@@ -154,3 +154,7 @@ Este projeto foi construído e testado de ponta a ponta nesta sessão:
 - ✅ App Electron testado headless (via `xvfb-run`), com screenshot real confirmando que a janela carrega o dashboard
 - ⚠️ WhatsApp (`whatsapp-web.js`): cliente real inicializado, mas a rede deste ambiente de desenvolvimento bloqueia o acesso a `web.whatsapp.com` — o código está pronto e falha de forma controlada (não derruba o servidor); em um ambiente com acesso à internet normal, ele deve gerar o QR code de verdade
 - ⚠️ `docker compose up --build`: não pôde ser validado nesta sessão porque a política de rede bloqueia o pull de imagens do Docker Hub (ver nota acima); o `Dockerfile` roda o mesmo código já validado via `./start.sh`
+
+## Outros projetos neste repositório
+
+- **[`marcenaria-tapecaria/`](./marcenaria-tapecaria)** — site estático 3D (HTML/CSS/JS + Three.js) apresentando um ateliê fictício de marcenaria e tapeçaria. Independente do AXIA; veja o README da pasta para detalhes.
