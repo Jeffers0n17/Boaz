@@ -33,6 +33,38 @@ test('fluxo completo: signup -> dashboard -> chat com o assistente', async ({ pa
   await expect(assistantMsgs.last()).toContainText(/tarefa/i, { timeout: 10_000 });
 });
 
+test('modo de voz: esfera de partículas carrega e o fallback de texto conversa com o assistente', async ({ page, context }) => {
+  await context.grantPermissions(['microphone']);
+
+  const email = `e2e-voice-${Date.now()}@axia.dev`;
+  await page.goto('/index.html');
+  await page.click('#tab-signup');
+  await page.fill('#signup-name', 'Usuária Voz');
+  await page.fill('#signup-email', email);
+  await page.fill('#signup-password', 'senha123');
+  await page.click('#signup-form button[type="submit"]');
+  await page.waitForURL('**/dashboard.html');
+
+  await page.click('#btn-voice');
+  await page.waitForURL('**/voice.html');
+
+  // A cena Three.js deve ter criado o <canvas> com WebGL de verdade.
+  const canvas = page.locator('#sphere-canvas');
+  await expect(canvas).toBeVisible();
+  const hasWebGL = await canvas.evaluate((el) => {
+    return Boolean(el.getContext('webgl2') || el.getContext('webgl'));
+  });
+  expect(hasWebGL).toBe(true);
+
+  // Fallback de texto (sem depender de microfone real) dispara o mesmo fluxo
+  // de chat + fala usado pelo reconhecimento de voz.
+  await page.fill('#text-fallback-input', 'quais são minhas tarefas?');
+  await page.click('#text-fallback-form button[type="submit"]');
+
+  await expect(page.locator('#transcript')).toContainText(/tarefa/i, { timeout: 10_000 });
+  await expect(page.locator('#status')).toContainText('Pronto', { timeout: 20_000 });
+});
+
 test('GET /api/status reflete configuração sem chaves', async ({ request }) => {
   const res = await request.get('/api/status');
   expect(res.ok()).toBeTruthy();

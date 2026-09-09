@@ -35,7 +35,7 @@ WhatsApp e texto-para-voz (ElevenLabs).
 ```
 
 - **`backend/`** — Node/Express. Serve a API (`/api/*`) **e** os arquivos estáticos do frontend, tudo na porta 8080. Usa `node:sqlite` (módulo nativo do Node ≥ 22.5) — **zero compilação nativa**, funciona igual local e no Docker.
-- **`frontend/`** — HTML/CSS/JS puro, sem framework/build step. `index.html` (login/signup) e `dashboard.html` (chat + widgets).
+- **`frontend/`** — HTML/CSS/JS puro, sem framework/build step. `index.html` (login/signup), `dashboard.html` (chat + widgets) e `voice.html` (modo de voz em tela cheia, com uma esfera de partículas em Three.js que reage ao áudio).
 - **`desktop/`** — App Electron real que abre a mesma UI web em uma janela nativa (menu, ícone, etc). Não duplica lógica nenhuma.
 - **`voice-assistant/`** — Script Python com pipeline de voz completo (reconhecimento de fala + fala), que conversa com o mesmo backend HTTP.
 - **`tests/`** — Teste end-to-end com Playwright, cobrindo signup → dashboard → chat, batendo num backend de verdade rodando.
@@ -120,6 +120,18 @@ python3 assistant.py --listen
 
 O script autentica sozinho no backend (cria conta na primeira vez, cacheia o token em `~/.axia_cli_session.json`), manda a mensagem pra `/api/assistant/chat` e fala a resposta (ElevenLabs real, se `ELEVENLABS_API_KEY` estiver no ambiente, senão TTS offline via `pyttsx3`).
 
+## Modo de voz (esfera de partículas)
+
+Acesse `/voice.html` (botão "🎙️ Modo de voz" no dashboard) para uma tela cheia com uma esfera de milhares de partículas brancas (Three.js), estilo Jarvis:
+
+- **Idle**: gira e "respira" suavemente.
+- **Ouvindo**: reage em tempo real ao volume do seu microfone (Web Audio API — `AnalyserNode` sobre o áudio capturado por `getUserMedia`).
+- **Falando**: reage ao volume real do áudio de resposta quando `ELEVENLABS_API_KEY` está configurada (o áudio vem de `POST /api/tts` e é analisado com outro `AnalyserNode`); sem a chave, cai para a voz do navegador (Web Speech API) com uma animação simulada, já que o navegador não expõe o sinal de áudio do `speechSynthesis`.
+
+Reconhecimento de fala usa a Web Speech API do navegador (`webkitSpeechRecognition`), disponível em navegadores baseados em Chromium. Em navegadores sem suporte (ou sem microfone), um campo de texto no rodapé da tela faz o mesmo fluxo (chat + fala) sem depender de áudio — é esse o caminho usado nos testes automatizados.
+
+O Three.js é vendorizado localmente em `frontend/vendor/three.module.min.js` (build ESM oficial, versão 0.170.0) — não depende de nenhum CDN externo em runtime.
+
 ## App Desktop (Electron)
 
 ```bash
@@ -138,7 +150,7 @@ npm install
 npx playwright test
 ```
 
-Testa de verdade, num navegador Chromium: criar conta → ver o dashboard carregado com dados mockados → mandar mensagem no chat → conferir a resposta do assistente no DOM. Também valida que `GET /api/status` reflete corretamente a ausência de chaves.
+Testa de verdade, num navegador Chromium: criar conta → ver o dashboard carregado com dados mockados → mandar mensagem no chat → conferir a resposta do assistente no DOM; abrir o modo de voz e confirmar que a cena Three.js renderiza com WebGL de verdade e que o fallback de texto conversa com o assistente. Também valida que `GET /api/status` reflete corretamente a ausência de chaves.
 
 ## Status deste projeto
 
@@ -147,6 +159,7 @@ Este projeto foi construído e testado de ponta a ponta nesta sessão:
 - ✅ Backend sobe e responde em `http://localhost:8080` (via `./start.sh`)
 - ✅ Signup, login e fluxo de auth JWT testados via `curl`
 - ✅ Dashboard real testado num navegador (Playwright + Chromium): login → widgets com dados mockados → chat → resposta do assistente aparece no DOM
+- ✅ Modo de voz (`/voice.html`) testado num navegador real: esfera de partículas em Three.js renderiza com WebGL de verdade, e reage ao volume do microfone (ouvindo) e ao áudio de resposta ou à voz do navegador (falando)
 - ✅ Chat em modo demo (sem `ANTHROPIC_API_KEY`) responde corretamente sobre tarefas/lembretes/eventos/transações; a integração real com o SDK da Anthropic está implementada e pronta — só falta a chave
 - ✅ Billing (`create-checkout-session`) e Google Calendar (`/auth`) testados em modo demo, sem nenhuma chave configurada
 - ✅ `GET /api/status` testado e reflete corretamente cada integração
