@@ -454,16 +454,17 @@
     if (!grid) return;
 
     const pieces = [
-      { title: "Mesa Freijó", tag: "Marcenaria", type: "wood", base: "#8a5a34", dark: "#3a2413" },
-      { title: "Manta Kilim", tag: "Tapeçaria", type: "fiber", palette: ["#a8402f", "#d9a441", "#e7d3ab"] },
-      { title: "Banco Cumaru", tag: "Marcenaria", type: "wood", base: "#5c3a24", dark: "#241206" },
-      { title: "Painel Urdido", tag: "Tapeçaria", type: "fiber", palette: ["#33685f", "#d9a441", "#a8402f"] },
-      { title: "Aparador Imbuia", tag: "Marcenaria", type: "wood", base: "#6b4226", dark: "#2c1a0d" },
-      { title: "Tear Lã Crua", tag: "Tapeçaria", type: "fiber", palette: ["#e7d3ab", "#33685f", "#8a5a34"] },
+      { title: "Mesa Freijó", tag: "Marcenaria", type: "wood", base: "#8a5a34", dark: "#3a2413", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/08bc0b08-71af-4f0e-b541-43bc1457ab34.jpg" },
+      { title: "Manta Kilim", tag: "Tapeçaria", type: "fiber", palette: ["#a8402f", "#d9a441", "#e7d3ab"], photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/d938120b-e81e-4fb0-b090-de9fde551389.jpg" },
+      { title: "Banco Cumaru", tag: "Marcenaria", type: "wood", base: "#5c3a24", dark: "#241206", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/1ae6aab2-753e-477b-a454-dbaad594846c.jpg" },
+      { title: "Painel Urdido", tag: "Tapeçaria", type: "fiber", palette: ["#33685f", "#d9a441", "#a8402f"], photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/cdfed7a1-9cce-4fb0-84ad-0a16b723e053.jpg" },
+      { title: "Aparador Imbuia", tag: "Marcenaria", type: "wood", base: "#6b4226", dark: "#2c1a0d", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/f3043dda-9e08-4c3b-a942-05c6f8fdd198.jpg" },
+      { title: "Tear Lã Crua", tag: "Tapeçaria", type: "fiber", palette: ["#e7d3ab", "#33685f", "#8a5a34"], photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/26923a36-770a-424d-affb-93775d8b25ad.jpg" },
     ];
 
     pieces.forEach((p) => {
-      const canvas =
+      // textura procedural como fundo imediato (evita flash em branco)
+      const fallbackCanvas =
         p.type === "wood"
           ? createWoodCanvas(400, p.base, p.dark)
           : createWeaveCanvas(400, p.palette);
@@ -471,11 +472,20 @@
       const card = document.createElement("div");
       card.className = "g-card reveal";
       card.innerHTML = `
-        <div class="g-surface" style="background-image:url(${canvas.toDataURL()});background-size:cover;position:absolute;inset:0;"></div>
+        <div class="g-surface" style="background-image:url(${fallbackCanvas.toDataURL()});background-size:cover;position:absolute;inset:0;"></div>
         <div class="g-overlay">
           <span class="g-tag">${p.tag}</span>
           <h3>${p.title}</h3>
         </div>`;
+
+      // troca para a foto realista assim que ela carregar (com fade suave)
+      const surface = card.querySelector(".g-surface");
+      const photo = new Image();
+      photo.onload = () => {
+        surface.style.transition = "opacity .5s ease";
+        surface.style.backgroundImage = `url(${p.photo})`;
+      };
+      photo.src = p.photo;
 
       card.addEventListener("mousemove", (e) => {
         const r = card.getBoundingClientRect();
