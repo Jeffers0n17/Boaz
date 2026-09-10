@@ -498,6 +498,10 @@
       { title: "Painel Urdido", tag: "Tapeçaria", type: "fiber", palette: ["#33685f", "#d9a441", "#a8402f"], photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/cdfed7a1-9cce-4fb0-84ad-0a16b723e053.jpg" },
       { title: "Aparador Imbuia", tag: "Marcenaria", type: "wood", base: "#6b4226", dark: "#2c1a0d", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/f3043dda-9e08-4c3b-a942-05c6f8fdd198.jpg" },
       { title: "Tear Lã Crua", tag: "Tapeçaria", type: "fiber", palette: ["#e7d3ab", "#33685f", "#8a5a34"], photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/26923a36-770a-424d-affb-93775d8b25ad.jpg" },
+      { title: "Armário Cumaru", tag: "Marcenaria", type: "wood", base: "#5c3a24", dark: "#241206", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/3a7b2ba5-7b25-4aa6-8ae6-9053e9f2f097.jpg" },
+      { title: "Estante Freijó", tag: "Marcenaria", type: "wood", base: "#8a5a34", dark: "#3a2413", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/2cc9b668-b62d-4483-854d-020ebee714b3.jpg" },
+      { title: "Cômoda Imbuia", tag: "Marcenaria", type: "wood", base: "#6b4226", dark: "#2c1a0d", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/cf246d7e-e2fb-464f-a5aa-48e2d68a094a.jpg" },
+      { title: "Cadeira Trama", tag: "Marcenaria + Tapeçaria", type: "wood", base: "#8a5a34", dark: "#3a2413", photo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/2f245ae3-e300-4be9-a1c7-2c27b21a7fe9.jpg" },
     ];
 
     pieces.forEach((p) => {
