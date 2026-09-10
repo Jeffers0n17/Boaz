@@ -157,4 +157,4 @@ Este projeto foi construído e testado de ponta a ponta nesta sessão:
 
 ## Outros projetos neste repositório
 
-- **[`marcenaria-tapecaria/`](./marcenaria-tapecaria)** — site estático 3D (HTML/CSS/JS + Three.js) apresentando um ateliê fictício de marcenaria e tapeçaria. Independente do AXIA; veja o README da pasta para detalhes.
+- **[`tapecaria/`](./tapecaria)** — site estático 3D (HTML/CSS/JS + Three.js) de um ateliê fictício de tapeçaria, com vídeo de revelação em camadas controlado por rolagem. Independente do AXIA; veja o README da pasta para detalhes.

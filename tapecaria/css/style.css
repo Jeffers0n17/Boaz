@@ -143,6 +143,34 @@ p{line-height:1.7;color:var(--ink-soft);margin:0 0 1em;}
 @keyframes cue{0%{opacity:1;top:6px;}70%{opacity:0;top:18px;}100%{opacity:0;top:6px;}}
 .scroll-cue small{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;}
 
+/* ===== Vídeo em rolagem: "Por dentro da trama" ===== */
+.video-scroll{position:relative;height:320vh;z-index:1;background:var(--wood-dark);}
+.video-stage{
+  position:sticky;top:0;height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;background:var(--wood-dark);
+}
+#scroll-video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(1.05) contrast(1.03);
+}
+.video-overlay{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,12,6,.6) 0%,rgba(20,12,6,.05) 26%,rgba(20,12,6,.05) 68%,rgba(20,12,6,.75) 100%);
+}
+.video-caption{
+  position:absolute;left:50%;bottom:72px;transform:translateX(-50%);
+  text-align:center;color:var(--cream);max-width:620px;padding:0 24px;
+  transition:opacity .35s ease, transform .35s ease;
+}
+.video-caption .eyebrow{margin-bottom:8px;}
+.video-caption h2{
+  color:var(--cream);font-size:clamp(1.4rem,3.4vw,2.2rem);margin:0;text-wrap:balance;
+}
+.video-progress{
+  position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(244,234,217,.15);
+}
+.video-progress span{display:block;height:100%;width:0%;background:var(--tapestry-mustard);}
+
 /* ===== Sections shared ===== */
 .section{position:relative;z-index:1;padding:120px 24px;}
 .container{max-width:1200px;margin:0 auto;}
@@ -167,7 +195,6 @@ p{line-height:1.7;color:var(--ink-soft);margin:0 0 1em;}
 .swatch{width:100%;height:100%;}
 
 /* ===== Craft sections ===== */
-.craft-wood{background:linear-gradient(180deg,var(--cream) 0%,var(--cream-soft) 100%);}
 .craft-fiber{background:var(--cream-soft);}
 .craft-stage{
   position:relative;aspect-ratio:1/1;border-radius:24px;overflow:hidden;
@@ -283,4 +310,6 @@ p{line-height:1.7;color:var(--ink-soft);margin:0 0 1em;}
   .timeline{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:1fr;}
   .section{padding:80px 20px;}
+  .video-scroll{height:240vh;}
+  .video-caption{bottom:48px;}
 }

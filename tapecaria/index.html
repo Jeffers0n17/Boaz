@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boaz — Marcenaria &amp; Tapeçaria</title>
-<meta name="description" content="Boaz: ateliê onde a madeira encontra o tear. Marcenaria artesanal e tapeçaria autoral em uma experiência 3D.">
+<title>Boaz — Tapeçaria</title>
+<meta name="description" content="Boaz: ateliê de tapeçaria autoral. Tear manual, fibras naturais e tinturas vegetais em uma experiência 3D.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23241812'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%23d9a441' font-family='Georgia,serif'%3EB%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
 <div id="loader">
   <div class="loader-mark">B</div>
   <div class="loader-bar"><span></span></div>
-  <p>preparando o ateliê…</p>
+  <p>preparando o tear…</p>
 </div>
 
 <canvas id="bg-canvas"></canvas>
@@ -25,12 +25,12 @@
   <div class="header-inner">
     <a href="#hero" class="brand">
       <span class="brand-mark">B</span>
-      <span class="brand-text">Boaz<em>Madeira &amp; Fio</em></span>
+      <span class="brand-text">Boaz<em>Tapeçaria</em></span>
     </a>
     <nav class="main-nav" id="main-nav">
       <a href="#sobre">Sobre</a>
-      <a href="#marcenaria">Marcenaria</a>
-      <a href="#tapecaria">Tapeçaria</a>
+      <a href="#trama">A Trama</a>
+      <a href="#tapecaria">Ofício</a>
       <a href="#galeria">Galeria</a>
       <a href="#processo">Processo</a>
       <a href="#contato" class="nav-cta">Contato</a>
@@ -46,10 +46,10 @@
   <!-- HERO -->
   <section id="hero" class="hero">
     <div class="hero-content">
-      <p class="eyebrow reveal">Marcenaria autoral · Tapeçaria manual</p>
-      <h1 class="reveal">Onde a madeira<br>encontra o <span>tear</span></h1>
-      <p class="hero-sub reveal">Um ateliê que une o cheiro de serragem à textura do fio.
-        Peças únicas, entalhadas e tecidas à mão, feitas para durar gerações.</p>
+      <p class="eyebrow reveal">Tapeçaria autoral · Tear manual</p>
+      <h1 class="reveal">Fio a fio,<br>até virar <span>tear</span></h1>
+      <p class="hero-sub reveal">Um ateliê dedicado inteiramente ao têxtil: lã, linho e algodão
+        entrelaçados à mão até virarem textura, cor e história. Peças únicas, tecidas para durar gerações.</p>
       <div class="hero-actions reveal">
         <a href="#galeria" class="btn btn-primary">Explorar o ateliê</a>
         <a href="#sobre" class="btn btn-ghost">Conhecer a história</a>
@@ -61,18 +61,30 @@
     </div>
   </section>
 
+  <!-- VÍDEO EM ROLAGEM: por dentro da trama -->
+  <section id="trama" class="video-scroll" aria-label="Por dentro da tapeçaria, revelado em vídeo conforme você rola a página">
+    <div class="video-stage">
+      <video id="scroll-video" src="video/exploded-view.mp4" muted playsinline preload="auto"></video>
+      <div class="video-overlay"></div>
+      <div class="video-caption" id="video-caption">
+        <p class="eyebrow">Por dentro da trama</p>
+        <h2 id="video-caption-title">Cada peça começa pronta na imaginação</h2>
+      </div>
+      <div class="video-progress" aria-hidden="true"><span id="video-progress-bar"></span></div>
+    </div>
+  </section>
+
   <!-- SOBRE -->
   <section id="sobre" class="section sobre">
     <div class="container split">
       <div class="split-text reveal">
         <p class="eyebrow">O ofício</p>
-        <h2>Duas técnicas, um só gesto: fazer com as mãos</h2>
-        <p>Na Boaz, marcenaria e tapeçaria nascem do mesmo impulso — transformar
-          matéria bruta em algo que se toca, se usa e se guarda. De um lado, a madeira
-          maciça, respeitada em seu veio e em seu tempo de cura. Do outro, o fio,
-          entrelaçado em teares manuais até virar textura, cor e história.</p>
-        <p>Cada peça carrega a marca do processo: encaixes sem pregos aparentes,
-          tramas urdidas fio a fio, acabamentos naturais que envelhecem com dignidade.</p>
+        <h2>Um só gesto, repetido até virar peça</h2>
+        <p>Na Boaz, tudo nasce do mesmo impulso — transformar fio bruto em algo que se toca,
+          se usa e se guarda. Lã, linho e algodão cru são entrelaçados em teares manuais,
+          com tinturas naturais e composições que contam uma história têxtil.</p>
+        <p>Cada peça carrega a marca do processo: tramas urdidas fio a fio, nós contados
+          um a um, acabamentos naturais que envelhecem com dignidade.</p>
         <div class="stat-row">
           <div><strong>18</strong><span>anos de ofício</span></div>
           <div><strong>620+</strong><span>peças entregues</span></div>
@@ -80,31 +92,8 @@
         </div>
       </div>
       <div class="split-visual reveal">
-        <div class="grain-frame"><div id="wood-swatch" class="swatch"></div></div>
-        <div class="weave-frame"><div id="weave-swatch" class="swatch"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MARCENARIA -->
-  <section id="marcenaria" class="section craft craft-wood">
-    <div class="container split reverse">
-      <div class="craft-stage reveal">
-        <canvas id="wood-canvas" class="craft-canvas"></canvas>
-        <span class="craft-tag">girar para ver</span>
-      </div>
-      <div class="split-text reveal">
-        <p class="eyebrow">Marcenaria</p>
-        <h2>Madeira maciça, encaixes de precisão</h2>
-        <p>Selecionamos madeiras de reflorestamento certificado — freijó, cumaru,
-          imbuia — e trabalhamos cada peça no ritmo da serra, da plaina e do formão.
-          Sem pressa, sem atalho.</p>
-        <ul class="feature-list">
-          <li><span class="ico">🪵</span><div><strong>Madeira selecionada</strong><p>Veios escolhidos um a um, secagem natural controlada.</p></div></li>
-          <li><span class="ico">🪚</span><div><strong>Encaixes tradicionais</strong><p>Rabo-de-andorinha e espiga, praticamente sem metal.</p></div></li>
-          <li><span class="ico">🖐️</span><div><strong>Acabamento à mão</strong><p>Óleos e ceras naturais que realçam o veio.</p></div></li>
-          <li><span class="ico">📐</span><div><strong>Projetos sob medida</strong><p>Do esboço ao ambiente, cada móvel é único.</p></div></li>
-        </ul>
+        <div class="grain-frame"><div id="weave-swatch-a" class="swatch"></div></div>
+        <div class="weave-frame"><div id="weave-swatch-b" class="swatch"></div></div>
       </div>
     </div>
   </section>
@@ -116,7 +105,7 @@
         <p class="eyebrow">Tapeçaria</p>
         <h2>Fio a fio, no tempo do tear</h2>
         <p>Lã, linho e algodão cru ganham forma em teares manuais, com tinturas
-          naturais e composições que dialogam com a paleta da madeira. Cada tapeçaria
+          naturais e composições que dialogam entre si. Cada tapeçaria
           é desenhada como uma paisagem têxtil.</p>
         <ul class="feature-list">
           <li><span class="ico">🧶</span><div><strong>Fibras naturais</strong><p>Lã, linho e algodão de origem rastreável.</p></div></li>
@@ -155,13 +144,13 @@
         </div>
         <div class="tl-item reveal">
           <div class="tl-num">02</div>
-          <h3>Matéria-prima</h3>
-          <p>Escolha de madeira e fibras, sempre com origem verificada.</p>
+          <h3>Fibras &amp; tinturas</h3>
+          <p>Escolha de lã, linho e algodão, sempre com origem verificada.</p>
         </div>
         <div class="tl-item reveal">
           <div class="tl-num">03</div>
           <h3>Execução manual</h3>
-          <p>Bancada e tear trabalham em paralelo, semanas de dedicação.</p>
+          <p>O tear trabalha fio a fio, semanas de dedicação.</p>
         </div>
         <div class="tl-item reveal">
           <div class="tl-num">04</div>
@@ -178,8 +167,8 @@
       <div class="split-text reveal">
         <p class="eyebrow">Contato</p>
         <h2>Vamos criar sua próxima peça</h2>
-        <p>Conte um pouco do que imagina — um móvel, uma tapeçaria, ou os dois
-          conversando no mesmo ambiente. Respondemos em até 2 dias úteis.</p>
+        <p>Conte um pouco do que imagina — uma tapeçaria de parede, uma manta,
+          um painel sob medida para o seu espaço. Respondemos em até 2 dias úteis.</p>
         <ul class="contact-info">
           <li>📍 Ateliê Boaz — Rua das Oficinas, 142</li>
           <li>✉️ contato@boazatelie.com.br</li>
@@ -211,8 +200,8 @@
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <span>© <span id="year"></span> Boaz Ateliê — Madeira &amp; Fio</span>
-    <span class="footer-made">feito à mão, fio a fio, corte a corte</span>
+    <span>© <span id="year"></span> Boaz Ateliê — Tapeçaria</span>
+    <span class="footer-made">feito à mão, fio a fio, trama a trama</span>
   </div>
 </footer>
 
