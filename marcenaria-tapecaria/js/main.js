@@ -120,6 +120,38 @@
     return canvas;
   }
 
+  /* ---------- fotos reais (Kairogen) usadas como texturas ---------- */
+  const REAL_TEXTURES = {
+    freijo: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/5ed6e31d-9ddd-4a19-8a01-60456638a9e9.jpg",
+    cumaru: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/464a50b6-5f66-44db-913c-fc2116b1b5a2.jpg",
+    imbuia: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/b0296870-a6ea-4728-b361-a55ba0ef449c.jpg",
+    kilim: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/c9a1260e-0e18-4581-90fa-a4f3d9f22807.jpg",
+    tapestryWeave: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/cc237626-6d68-4574-91b2-76a8e5948da9.jpg",
+    rawWool: "https://cdn.kairogen.ai/gallery/images/6a412d2e8cef6b158d5eb037/611c7fca-7f5b-466c-a9b8-cce868e549f4.jpg",
+  };
+
+  /* Troca a textura procedural (sempre disponível de imediato) pela foto real
+     assim que ela terminar de carregar — se falhar (rede/CORS), fica a
+     textura procedural, sem quebrar a cena. */
+  function upgradeToPhoto(texture, url) {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      texture.image = img;
+      texture.needsUpdate = true;
+    };
+    img.src = url;
+  }
+
+  function upgradeBackgroundToPhoto(el, url) {
+    const img = new Image();
+    img.onload = () => {
+      el.style.transition = "opacity .6s ease";
+      el.style.backgroundImage = `url(${url})`;
+    };
+    img.src = url;
+  }
+
   /* Amostras estáticas usadas na seção "Sobre" */
   function paintSwatches() {
     const woodEl = document.getElementById("wood-swatch");
@@ -128,11 +160,13 @@
       const c = createWoodCanvas(512, "#8a5a34", "#3a2413");
       woodEl.style.backgroundImage = `url(${c.toDataURL()})`;
       woodEl.style.backgroundSize = "cover";
+      upgradeBackgroundToPhoto(woodEl, REAL_TEXTURES.imbuia);
     }
     if (weaveEl) {
       const c = createWeaveCanvas(512, ["#a8402f", "#d9a441", "#33685f", "#e7d3ab"]);
       weaveEl.style.backgroundImage = `url(${c.toDataURL()})`;
       weaveEl.style.backgroundSize = "cover";
+      upgradeBackgroundToPhoto(weaveEl, REAL_TEXTURES.rawWool);
     }
   }
 
@@ -167,6 +201,7 @@
     const woodTex = new THREE.CanvasTexture(createWoodCanvas(512, "#8a5a34", "#3a2413"));
     woodTex.wrapS = woodTex.wrapT = THREE.RepeatWrapping;
     const woodMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.75, metalness: 0.05 });
+    upgradeToPhoto(woodTex, REAL_TEXTURES.freijo);
 
     const woodGroup = new THREE.Group();
     for (let i = 0; i < 4; i++) {
@@ -183,6 +218,7 @@
     const weaveTex = new THREE.CanvasTexture(
       createWeaveCanvas(512, ["#a8402f", "#d9a441", "#33685f", "#e7d3ab"])
     );
+    upgradeToPhoto(weaveTex, REAL_TEXTURES.kilim);
     const tapestryGeo = new THREE.PlaneGeometry(3.2, 4, 40, 50);
     const tapestryMat = new THREE.MeshStandardMaterial({
       map: weaveTex,
@@ -331,6 +367,7 @@
 
     if (kind === "wood") {
       const tex = new THREE.CanvasTexture(createWoodCanvas(512, "#96633a", "#3a2413"));
+      upgradeToPhoto(tex, REAL_TEXTURES.cumaru);
       const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7, metalness: 0.06 });
 
       // perfil torneado (bowl / peça de marcenaria)
@@ -356,6 +393,7 @@
       const tex = new THREE.CanvasTexture(
         createWeaveCanvas(512, ["#33685f", "#d9a441", "#a8402f", "#e7d3ab"])
       );
+      upgradeToPhoto(tex, REAL_TEXTURES.tapestryWeave);
       const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.95, side: THREE.DoubleSide });
       waveGeo = new THREE.PlaneGeometry(2.6, 3.2, 36, 44);
       const cloth = new THREE.Mesh(waveGeo, mat);
